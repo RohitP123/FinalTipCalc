@@ -76,6 +76,5 @@ struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView(cardLabelText: "PER PERSON")
             .frame(width: 300, height: 150)
-    
     }
 }
