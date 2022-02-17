@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var checkAmount = ""
+    @State private var checkAmount = "" //what is @State
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 2
     @FocusState private var isInputActive: Bool
@@ -16,7 +16,9 @@ struct ContentView: View {
     private let tipPercentages = [10, 15, 20, 25, 0]
     
     private var subTotal: Double { Double(checkAmount) ??
-        0 }
+        0
+        
+    }
     private var subTotalPerPerson: Double {
         let peopleCount = Double(numberOfPeople)
         let orderAmount = Double(checkAmount) ?? 0
@@ -51,19 +53,79 @@ struct ContentView: View {
         return amountPerPerson
     }
     
+    init() {
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.indigo)
+    }
+    
     
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 20) {
                 CardView(cardLabelText: "PER PERSON", totalAmount: totalPerPerson, subtotalAmount: subTotalPerPerson, tipAmount: tipValuePerPerson)
                     .frame(width: geo.size.width, height: 100)
+                
+                
+                CardView(cardLabelText: "TOTAL", totalAmount: totalAmountWithTip, subtotalAmount: subTotal, tipAmount: tipValue)
+                    .frame(width: geo.size.width, height: 100)
+                
+                Picker("Tip Percentage", selection:
+                    $tipPercentage) {
+                    ForEach(0..<tipPercentages.count) { //what does this mean
+                        Text("\(self.tipPercentages[$0])%")
+                    }
+                }
+                    .pickerStyle(SegmentedPickerStyle())
+                TitleView(title: "BILL AMOUNT")
+                
+                HStack {
+                    Text("$")
+                        .foregroundColor(.primary)
+                        .font(.system(size:60, weight:
+                                .black, design: .rounded))
+                    //what are bindings using $
+                    TextField("Amount", text: $checkAmount)
+                        .foregroundColor(.primary)
+                        .font(.system(size:60, weight:
+                                .black, design: .rounded))
+                        .keyboardType(.decimalPad) //what is decimal pad
+                        .focused($isInputActive)
+                    
+                        .toolbar {
+                            ToolbarItemGroup( placement: .keyboard) {
+                                Spacer()
+                                Button("Done") {
+                                    isInputActive = false
+                                }
+                            }
+                        
+                        }
+                    
+                }
+                TitleView(title: "SPLIT")
+                GuestCountView(guestCount: $numberOfPeople)
+         
             }
         }
+        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark) //other cool colorways?
+    }
+}
+//extracted views as functions, op?!
+struct TitleView: View { //is this a function?
+    var title: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.indigo)
+                .fontWeight(.black)
+            Spacer()
+        }
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GuestCountView: View {
-    @Binding var guestCount: Int
+    @Binding var guestCount: Int //related to $?
     
     var body: some View {
         HStack(spacing: 20) {
