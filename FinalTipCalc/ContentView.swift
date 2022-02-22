@@ -61,20 +61,7 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 20) {
-                CardView(cardLabelText: "PER PERSON", totalAmount: totalPerPerson, subtotalAmount: subTotalPerPerson, tipAmount: tipValuePerPerson)
-                    .frame(width: geo.size.width, height: 100)
-                
-                
-                CardView(cardLabelText: "TOTAL", totalAmount: totalAmountWithTip, subtotalAmount: subTotal, tipAmount: tipValue)
-                    .frame(width: geo.size.width, height: 100)
-                
-                Picker("Tip Percentage", selection:
-                    $tipPercentage) {
-                    ForEach(0..<tipPercentages.count) { //what does this mean
-                        Text("\(self.tipPercentages[$0])%")
-                    }
-                }
-                    .pickerStyle(SegmentedPickerStyle())
+             
                 TitleView(title: "BILL AMOUNT")
                 
                 HStack {
@@ -103,6 +90,23 @@ struct ContentView: View {
                 }
                 TitleView(title: "SPLIT")
                 GuestCountView(guestCount: $numberOfPeople)
+                
+                CardView(cardLabelText: "PER PERSON", totalAmount: totalPerPerson, subtotalAmount: subTotalPerPerson, tipAmount: tipValuePerPerson)
+                    .frame(width: geo.size.width, height: 100)
+                
+                
+                CardView(cardLabelText: "TOTAL", totalAmount: totalAmountWithTip, subtotalAmount: subTotal, tipAmount: tipValue)
+                    .frame(width: geo.size.width, height: 100)
+                
+                Picker("Tip Percentage", selection:
+                    $tipPercentage) {
+                    ForEach(0..<tipPercentages.count) { //what does this mean
+                        Text("\(self.tipPercentages[$0])%")
+                    }
+                }
+                    .pickerStyle(SegmentedPickerStyle())
+                
+                
          
             }
         }
@@ -116,6 +120,7 @@ struct ContentView_Previews: PreviewProvider {
             .preferredColorScheme(.dark) //other cool colorways?
     }
 }
+
 //extracted views as functions, op?!
 struct TitleView: View { //is this a function?
     var title: String
